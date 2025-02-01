@@ -1,0 +1,26 @@
+__________________________   # 0
+__________________________
+__CCGGCC__CC__CC__CCGGCC__   # 1
+__GGGGBB__BB__BB__BBGGGG__
+______BB__BBGGBB__BB______   # 2
+CC____CCGGBBGGBBGGCC____CC
+__BB__BBGGCC__CCGGBB__BB__   # 3
+GGBB________SS________BBGG
+GGBB__SSSS______SSSS__BBGG   # 4
+___WWW____WW__WW____WWW___
+___GGGGGGGWW__WWGGGGGGG___   # 5
+_____WWGGGWW__WWGGGWW_____
+BB______________________BB   # 6
+GGCCCCCCCCC____CCCCCCCCCGG
+GG_______BB____BB_______GG   # 7
+GG__________BB__________GG
+GGCCSS______________SSCCGG   # 8
+GGCC___SS_CC__CC_SS___CCGG
+GGCC_____SCC__CCS___GGCCGG   # 9
+GGCC______CC__CC__GGGGCCGG
+GGBBBB____________GGBBBBGG   # 10
+GG______________________GG
+GGBBWWWW__________WWWWBBGG   # 11
+__BBWWWW___BBBB___WWWWBB__
+WW_________B__B_________WW   # 12
+WW_________B__B_________WW
