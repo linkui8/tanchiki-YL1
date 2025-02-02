@@ -18,6 +18,9 @@ class Game:
         self.r = random.Random()
         self.value_of_deaths = 0
 
+        self.sound_death = pygame.mixer.Sound('data/souds/death.ogg')
+        self.sound_bonus = pygame.mixer.Sound('data/souds/bonus.ogg')
+
         self.scene = GameObject()
         # field --
         self.field = Field()
@@ -146,6 +149,7 @@ class Game:
         tank.move_tank(direction)
 
     def apply_bonus(self, t: Tank, bonus: BonusType):
+        self.sound_bonus.play()
         if bonus == bonus.DESTRUCTION:
             for t in self.tanks:
                 if not t.is_spawning and t.fraction == Tank.ENEMY:
@@ -225,6 +229,7 @@ class Game:
             destroy = True
             self.respawn_tank(t)
         else:
+            self.sound_death.play()
             t.hit = True
             self.ai.update_one_tank(t)
             if t.to_destroy:
