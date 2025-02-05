@@ -55,6 +55,15 @@ text_rect = text4.get_rect(
 
 button_rect4 = pygame.Rect(220, 320, 150, 50)
 
+#5button
+button_surface5 = pygame.Surface((150, 50))
+
+text5 = font.render("Результаты", True, (0, 0, 0))
+text_rect = text5.get_rect(
+    center=(button_surface1.get_width() / 2,
+            button_surface1.get_height() / 2))
+
+button_rect5 = pygame.Rect(220, 140, 150, 50)
 
 while True:
     clock.tick(60)
@@ -89,6 +98,9 @@ while True:
                 b.write("4")
                 b.close()
                 subprocess.run(['python', 'main.py'])
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if button_rect5.collidepoint(event.pos):
+                subprocess.run(['python', 'results.py'])
 
     if button_rect1.collidepoint(pygame.mouse.get_pos()):
         pygame.draw.rect(button_surface1, (255, 255, 255), (1, 1, 148, 48))
@@ -119,6 +131,14 @@ while True:
         pygame.draw.rect(button_surface4, (0, 0, 0), (1, 1, 148, 1), 2)
         pygame.draw.rect(button_surface4, (0, 100, 0), (1, 48, 148, 10), 2)
 
+    if button_rect5.collidepoint(pygame.mouse.get_pos()):
+        pygame.draw.rect(button_surface5, (255, 255, 255), (1, 1, 148, 48))
+    else:
+        pygame.draw.rect(button_surface5, (0, 0, 0), (0, 0, 150, 50))
+        pygame.draw.rect(button_surface5, (255, 255, 255), (1, 1, 148, 48))
+        pygame.draw.rect(button_surface5, (0, 0, 0), (1, 1, 148, 1), 2)
+        pygame.draw.rect(button_surface5, (0, 100, 0), (1, 48, 148, 10), 2)
+
     button_surface1.blit(text1, text_rect)
 
     screen.blit(button_surface1, (button_rect1.x, button_rect1.y))
@@ -134,6 +154,10 @@ while True:
     button_surface4.blit(text4, text_rect)
 
     screen.blit(button_surface4, (button_rect4.x, button_rect4.y))
+
+    button_surface5.blit(text5, text_rect)
+
+    screen.blit(button_surface5, (button_rect5.x, button_rect5.y))
 
     screen.blit(title, (10, 23))
     screen.blit(prav, (20, 80))
