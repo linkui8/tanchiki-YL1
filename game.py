@@ -11,15 +11,25 @@ from ai import EnemyFractionAI
 from bonus_field_protect import FieldProtector
 from score_node import ScoreLayer
 import random
-
+import sqlite3
+import time
 
 class Game:
     def __init__(self, nol):
         self.r = random.Random()
         self.value_of_deaths = 0
+        self.sec = 0
+
+        self.start_time = time.time()
+        self.end_time = 0
 
         self.sound_death = pygame.mixer.Sound('data/souds/death.ogg')
         self.sound_bonus = pygame.mixer.Sound('data/souds/bonus.ogg')
+
+        self.number_of_level = nol
+
+        self.connection = sqlite3.connect('data/infodb.db')
+        self.cursor = self.connection.cursor()
 
         self.scene = GameObject()
         # field --
@@ -97,6 +107,11 @@ class Game:
                 ds = 0
             self.score += ds
             if self.score >= 2000:
+                self.end_time = time.time()
+                time1 = round((self.end_time - self.start_time))
+                self.cursor.execute(f"insert into firstlevel (score, time, lives, nol) values ({self.score}, {time1}, {3 - self.value_of_deaths}, {self.number_of_level})")
+                self.connection.commit()
+                self.connection.close()
                 self.my_base.broken = True
                 go = GameWinLabel()
                 go.place_at_center(self.field)
@@ -247,6 +262,11 @@ class Game:
         if self.is_friend(t):
             self.value_of_deaths += 1
             if self.value_of_deaths >= 3:
+                self.end_time = time.time()
+                time2 = round((self.end_time - self.start_time))
+                self.cursor.execute(f"insert into firstlevel (score, time, lives, nol) values ({self.score}, {time2}, {3 - self.value_of_deaths}, 2)")
+                self.connection.commit()
+                self.connection.close()
                 self.my_base.broken = True
                 go = GameOverLabel()
                 go.place_at_center(self.field)
@@ -321,9 +341,10 @@ class Game:
         screen.blit(score_label, (GAME_WIDTH - 75, 5))
 
         # - 1 because the scene is not literally an object
+        time = round((self.end_time - self.start_time))
         dbg_text = f'Жизней: {3 - self.value_of_deaths}'
         if self.is_game_over:
-            dbg_text = 'Нажмите R для новой игры! ' + dbg_text
+            dbg_text = 'Нажмите R для новой игры! ' + dbg_text + f' Время - {time} секунд.'
 
         dbg_label = self.font_debug.render(dbg_text, 1, (255, 255, 255))
         screen.blit(dbg_label, (5, 5))
