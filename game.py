@@ -13,12 +13,16 @@ from score_node import ScoreLayer
 import random
 import sqlite3
 import time
+import subprocess
+
 
 class Game:
     def __init__(self, nol):
         self.r = random.Random()
         self.value_of_deaths = 0
         self.sec = 0
+
+        self.fin = open("data/last.txt", "w")
 
         self.start_time = time.time()
         self.end_time = 0
@@ -109,6 +113,8 @@ class Game:
             if self.score >= 2000:
                 self.end_time = time.time()
                 time1 = round((self.end_time - self.start_time))
+                self.fin.write(f"{self.score}_{time1}_{3 - self.value_of_deaths}_{self.number_of_level}")
+                self.fin.close()
                 self.cursor.execute(f"insert into firstlevel (score, time, lives, nol) values ({self.score}, {time1}, {3 - self.value_of_deaths}, {self.number_of_level})")
                 self.connection.commit()
                 self.connection.close()
@@ -116,6 +122,7 @@ class Game:
                 go = GameWinLabel()
                 go.place_at_center(self.field)
                 self.scene.add_child(go)
+                subprocess.run(['python', 'lastw.py'])
             else:
                 self.score_layer.add(*t.center_point, ds)
 
@@ -264,6 +271,8 @@ class Game:
             if self.value_of_deaths >= 3:
                 self.end_time = time.time()
                 time2 = round((self.end_time - self.start_time))
+                self.fin.write(f"{self.score}_{time2}_{3 - self.value_of_deaths})_{self.number_of_level}")
+                self.fin.close()
                 self.cursor.execute(f"insert into firstlevel (score, time, lives, nol) values ({self.score}, {time2}, {3 - self.value_of_deaths}, 2)")
                 self.connection.commit()
                 self.connection.close()
@@ -271,6 +280,7 @@ class Game:
                 go = GameOverLabel()
                 go.place_at_center(self.field)
                 self.scene.add_child(go)
+                subprocess.run(['python', 'lastw.py'])
             self.respawn_tank(t)
         else:
             self.ai.update_one_tank(t)
